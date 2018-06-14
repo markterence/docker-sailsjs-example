@@ -47,7 +47,7 @@ module.exports = {
  
 			}).catch(function(err) {
 				console.error(err);
- 
+        process.exit(0);
 				return;
 			})
     });
