@@ -1,0 +1,3 @@
+--timeout 60s
+--reporter mochawesome
+--watch
