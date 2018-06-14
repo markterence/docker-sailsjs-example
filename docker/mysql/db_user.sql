@@ -1,0 +1,6 @@
+-- create user for mysql
+CREATE USER 'todoserver'@'%' IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON *.* TO 'todoserver'@'%' WITH GRANT OPTION;
+
+-- reload mysql users
+FLUSH PRIVILEGES;

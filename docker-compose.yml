@@ -9,7 +9,7 @@ services:
       # application environment variables
       - DB_HOST=127.0.0.1
       - DB_USER=root
-      - DB_PASSWORD=
+      - DB_PASSWORD=root
       - DB_DATABASE=tododb
       - PORT=1350
       - NODE_ENV=alterdb
@@ -19,3 +19,14 @@ services:
     expose:
       - "1350" #expose the application port
     command: "node app.js"
+  db: 
+    image: mariadb:10.3.7
+    environment:
+      - MYSQL_ROOT_PASSWORD: "root"
+      - MYSQL_RANDOM_ROOT_PASSWORD: "no"
+    volumes:
+      - database:/var/lib/mysql
+      - ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
+      - ./docker/mysql/db_user.sql:/docker-entrypoint-initdb.d/db_user.sql
+volumes:
+  database:
