@@ -47,10 +47,6 @@
     "cherry-pick-f": "git cherry-pick --strategy=recursive -X theirs"
   },
   "main": "app.js",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
   "author": "Mark Terence Tiglao",
   "license": "",
   "devDependencies": {
