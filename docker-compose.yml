@@ -15,18 +15,22 @@ services:
       NODE_ENV: alterdb
     volumes:
       # mount our directory to the working_dir
-      - ./todo-application/todo-server:/home/node/todo-server
+      #- ./todo-application/todo-server:/home/node/todo-server
+      - /home/node/todo-server
     expose:
       - "1350" #expose the application port
+    port: 
+      - "1350"
+    ports:
     command: "node app.js"
-  db: 
-    image: mariadb:10.3.7
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_RANDOM_ROOT_PASSWORD: no
-    volumes:
-      - database:/var/lib/mysql
-      - ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
-      - ./docker/mysql/db_user.sql:/docker-entrypoint-initdb.d/db_user.sql
+  # db: 
+  #   image: mariadb:10.3.7
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_RANDOM_ROOT_PASSWORD: "no"
+  #   volumes:
+  #     - database:/var/lib/mysql
+  #     - ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
+  #     - ./docker/mysql/db_user.sql:/docker-entrypoint-initdb.d/db_user.sql
 volumes:
   database:

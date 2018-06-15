@@ -7,6 +7,6 @@ USER node
 WORKDIR /home/node/todo-server
 
 # copy sails js source code to current WORKDIR
-ADD ./todo-application/todo-server/ .
-
+#ADD ./todo-application/todo-server/ .
+COPY . /home/node/todo-server
 RUN npm install
