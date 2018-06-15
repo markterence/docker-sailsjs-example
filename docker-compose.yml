@@ -3,7 +3,8 @@ version: '3'
 services:
   nodejs:
     build: 
-      context: ./docker/nodejs
+     context: .
+     dockerfile: ./docker/nodejs/Dockerfile
     container_name: todo-nodejs
     environment:
       # application environment variables
@@ -13,15 +14,15 @@ services:
       DB_DATABASE: tododb
       PORT: 1350
       NODE_ENV: alterdb
+ 
     volumes:
       # mount our directory to the working_dir
-      #- ./todo-application/todo-server:/home/node/todo-server
-      - /home/node/todo-server
+      - .:/todo-server/
+      #- ./todo-application/todo-server/node_modules:/todo-server/node_modules
     expose:
       - "1350" #expose the application port
-    port: 
+    ports: 
       - "1350"
-    ports:
     command: "node app.js"
   # db: 
   #   image: mariadb:10.3.7
