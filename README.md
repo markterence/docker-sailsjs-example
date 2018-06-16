@@ -1,4 +1,12 @@
-# APP
+# docker-sailsjs-example
+
+- This uses [wait-for-it.sh](https://github.com/vishnubob/wait-for-it)  
+Run the following commands to get `wait-for-it` repository. (Added `wait-for-it` as git submodule.)
+```
+git pull && git submodule init && git submodule update
+```
+-  [Control startup order in Compose](https://docs.docker.com/compose/startup-order/)
+
 
 - This uses [wait-for-it.sh](https://github.com/vishnubob/wait-for-it)  
 Run the following commands to get `wait-for-it` repository. (Added `wait-for-it` as git submodule.)
@@ -18,9 +26,10 @@ git pull && git submodule init && git submodule update
 |DB_USER| MySQL username (must have alter permission)
 |DB_PASSWORD| MySQL password
 |DB_DATABASE| Database name 
-
+|NODE_ENV| sails js environment mode (production, development , alterdb). 'alterdb' by default to create tables. \)O- O)\
 - Ports
    - `1350` - api server
+
 ```bash
 # build the containers, start it in de-attached mode. (runs in background).
 docker-compose up --build -d
