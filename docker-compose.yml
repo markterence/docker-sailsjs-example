@@ -38,7 +38,7 @@ services:
     volumes:
       - database:/var/lib/mysql
       - /var/lib/mysql:/var/lib/mysql
-      - ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
+      #- ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
       - ./docker/mysql/db_user.sql:/docker-entrypoint-initdb.d/db_user.sql
     #command: "chmod +x /docker-entrypoint-initdb.d/db_setup.sh"
 volumes:
