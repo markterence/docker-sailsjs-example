@@ -4,10 +4,12 @@ FROM node:8.11.3
 #USER node
  
  
-ADD ./todo-application/todo-server /todo-server/
+
 #COPY . /todo-application/
 WORKDIR /todo-server
-
+COPY ./todo-application/todo-server/package.json .
+#RUN ls -a
 RUN npm install
-
-CMD ["node", "app,js"]
+COPY ./todo-application/todo-server /todo-server/
+USER NODE
+CMD ["node", "app.js"]
