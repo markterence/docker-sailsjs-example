@@ -28,6 +28,7 @@ services:
       - "db"
   db: 
     image: mariadb:10.3.7
+    container_name: "todo-nodejs-mariadb"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: "todoserver"
