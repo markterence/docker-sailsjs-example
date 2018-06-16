@@ -52,7 +52,7 @@ module.exports = {
 			})
     });
     sails.after('hook:orm:loaded', function(){
-      process.send('ready')
+      //process.send('ready')
     })
     return cb();
   }

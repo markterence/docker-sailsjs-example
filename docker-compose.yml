@@ -8,31 +8,42 @@ services:
     container_name: todo-nodejs
     environment:
       # application environment variables
-      DB_HOST: 127.0.0.1
-      DB_USER: root
-      DB_PASSWORD: root
+      DB_HOST: db
+      DB_USER: todoserver
+      DB_PASSWORD: todoserverpassword
       DB_DATABASE: tododb
       PORT: 1350
       NODE_ENV: alterdb
  
-    volumes:
+    #volumes:
       # mount our directory to the working_dir
-      - ./todo-application/todo-server:/todo-server/
-      - ./todo-application/todo-server/node_modules:/todo-server/node_modules
+      #- ./todo-application/todo-server:/todo-server
+      #- ./todo-application/todo-server/node_modules:/todo-server/node_modules
     # expose:
     #   - "1350" #expose the application port
     ports: 
       - "1350:1350"
-    command: "node app.js"
+    command: "npm start"
+    depends_on: 
+      - "db"
   db: 
     image: mariadb:10.3.7
+    container_name: "todo-nodejs-mariadb"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: "todoserver"
-      MYSQL_PASSWORD: "todoserverpassword"
+      #MYSQL_USER: "todoserver"
+      #MYSQL_PASSWORD: "todoserverpassword"
+    ports:
+      - "3306:3306"
     volumes:
       - database:/var/lib/mysql
-      - ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
-      - ./docker/mysql/db_user.sql:/docker-entrypoint-initdb.d/db_user.sql
+      - /var/lib/mysql:/var/lib/mysql
+      #- ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+    #command: "chmod +x /docker-entrypoint-initdb.d/db_setup.sh"
 volumes:
   database:
+# networks:
+#   todo_sailsjs_network:
+#     driver: bridge
+#   - ./todo-application/todo-server:/todo-server
