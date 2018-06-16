@@ -26,7 +26,6 @@ services:
     command: "npm start"
     depends_on: 
       - "db"
-    netork
   db: 
     image: mariadb:10.3.7
     container_name: "todo-nodejs-mariadb"
