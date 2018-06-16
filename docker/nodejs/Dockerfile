@@ -9,3 +9,5 @@ ADD ./todo-application/todo-server /todo-server/
 WORKDIR /todo-server
 
 RUN npm install
+
+CMD ["node", "app,js"]

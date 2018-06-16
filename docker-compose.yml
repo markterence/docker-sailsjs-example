@@ -23,7 +23,6 @@ services:
     #   - "1350" #expose the application port
     ports: 
       - "1350:1350"
-    command: "node app.js"
   # db: 
   #   image: mariadb:10.3.7
   #   environment:
