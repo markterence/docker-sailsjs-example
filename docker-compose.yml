@@ -31,16 +31,15 @@ services:
     container_name: "todo-nodejs-mariadb"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: "todoserver"
-      MYSQL_PASSWORD: "todoserverpassword"
+      #MYSQL_USER: "todoserver"
+      #MYSQL_PASSWORD: "todoserverpassword"
     ports:
       - "3306:3306"
     volumes:
       - database:/var/lib/mysql
       - /var/lib/mysql:/var/lib/mysql
       #- ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
-      - ./docker/mysql/db_setup.sql:/docker-entrypoint-initdb.d/db_setup.sql
-      - ./docker/mysql/db_user.sql:/docker-entrypoint-initdb.d/db_user.sql
+      - ./docker/mysql:/docker-entrypoint-initdb.d
     #command: "chmod +x /docker-entrypoint-initdb.d/db_setup.sh"
 volumes:
   database:
