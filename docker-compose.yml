@@ -8,7 +8,7 @@ services:
     container_name: todo-nodejs
     environment:
       # application environment variables
-      DB_HOST: 127.0.0.1
+      DB_HOST: db
       DB_USER: todoserver
       DB_PASSWORD: todoserverpassword
       DB_DATABASE: tododb
@@ -26,6 +26,7 @@ services:
     command: "npm start"
     depends_on: 
       - "db"
+    netork
   db: 
     image: mariadb:10.3.7
     container_name: "todo-nodejs-mariadb"
@@ -33,10 +34,15 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: "todoserver"
       MYSQL_PASSWORD: "todoserverpassword"
+    ports:
+      - "3306:3306"
     volumes:
       - database:/var/lib/mysql
       - ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
       - ./docker/mysql/db_user.sql:/docker-entrypoint-initdb.d/db_user.sql
 volumes:
   database:
+# networks:
+#   todo_sailsjs_network:
+#     driver: bridge
 #   - ./todo-application/todo-server:/todo-server
