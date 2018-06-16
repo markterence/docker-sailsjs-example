@@ -11,4 +11,3 @@ COPY ./todo-application/todo-server/package.json .
 #RUN ls -a
 RUN npm install
 COPY ./todo-application/todo-server /todo-server/
-CMD ["node", "app.js"]
