@@ -9,8 +9,8 @@ services:
     environment:
       # application environment variables
       DB_HOST: 127.0.0.1
-      DB_USER: root
-      DB_PASSWORD: root
+      DB_USER: todoserver
+      DB_PASSWORD: todoserverpassword
       DB_DATABASE: tododb
       PORT: 1350
       NODE_ENV: alterdb
