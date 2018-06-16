@@ -15,9 +15,9 @@ services:
       PORT: 1350
       NODE_ENV: alterdb
  
-    volumes:
+    #volumes:
       # mount our directory to the working_dir
-      - ./todo-application/todo-server:/todo-server
+      #- ./todo-application/todo-server:/todo-server
       #- ./todo-application/todo-server/node_modules:/todo-server/node_modules
     # expose:
     #   - "1350" #expose the application port
