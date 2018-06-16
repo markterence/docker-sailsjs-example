@@ -17,8 +17,8 @@ services:
  
     volumes:
       # mount our directory to the working_dir
-      - .:/todo-server/
-      #- ./todo-application/todo-server/node_modules:/todo-server/node_modules
+      - ./todo-application/todo-server:/todo-server/
+      - ./todo-application/todo-server/node_modules:/todo-server/node_modules
     expose:
       - "1350" #expose the application port
     ports: 
