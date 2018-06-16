@@ -8,6 +8,4 @@ ADD ./todo-application/todo-server /todo-server/
 #COPY . /todo-application/
 WORKDIR /todo-server
 
-CMD ["npm", "install"]
-
- 
+RUN npm install
