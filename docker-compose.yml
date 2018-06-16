@@ -36,5 +36,6 @@ services:
       - database:/var/lib/mysql
       - ./bin/db_setup.sh:/docker-entrypoint-initdb.d/db_setup.sh
       - ./docker/mysql/db_user.sql:/docker-entrypoint-initdb.d/db_user.sql
-# volumes:
+volumes:
+  database:
 #   - ./todo-application/todo-server:/todo-server
