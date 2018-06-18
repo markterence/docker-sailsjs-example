@@ -19,13 +19,12 @@ RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
 RUN add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://sgp1.mirrors.digitalocean.com/mariadb/repo/10.3/debian jessie main'
 RUN apt-get update
 RUN export DEBIAN_FRONTEND=noninteractive
-RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'"]
-RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'"]
-RUN apt-get install mariadb-server -y -q
-RUN ["/bin/bash", "-c", "mysql -u root -proot -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;'"]
+RUN ["/bin/bash", "-c", "sudo debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'"]
+RUN ["/bin/bash", "-c", "sudo debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'"]
+RUN sudo apt-get install mariadb-server -y -q && mysql -u root -proot -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;'
 
-RUN sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf
-RUN service mysql restart
+RUN sudo sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf
+RUN sudo service mysql restart
 
 ## install nodejs
 
