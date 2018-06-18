@@ -7,14 +7,7 @@ git pull && git submodule init && git submodule update
 ```
 -  [Control startup order in Compose](https://docs.docker.com/compose/startup-order/)
 
-
-- This uses [wait-for-it.sh](https://github.com/vishnubob/wait-for-it)  
-Run the following commands to get `wait-for-it` repository. (Added `wait-for-it` as git submodule.)
-```
-git pull && git submodule init && git submodule update
-```
--  [Control startup order in Compose](https://docs.docker.com/compose/startup-order/)
-
+----
 
 ## todo-server
 - **Environment Variables for `todo-server`**
