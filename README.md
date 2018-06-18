@@ -7,6 +7,20 @@ git pull && git submodule init && git submodule update
 ```
 -  [Control startup order in Compose](https://docs.docker.com/compose/startup-order/)
 
+## Container and Images
+**FROM `node:8.11.3`**
+- container  
+![container-big](./images/big-container.jpg)
+- image  
+![image-big](./images/big-image.jpg)
+
+**FROM `node:8.11.3-alpine`**
+- container  
+![container-big](./images/small-container.jpg)
+- image  
+![image-big](./images/small-image.jpg)
+
+
 ----
 
 ## todo-server
