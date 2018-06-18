@@ -22,7 +22,8 @@ RUN apt-get update
 RUN export DEBIAN_FRONTEND=noninteractive
 RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'"]
 RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'"]
-RUN sudo apt-get install mariadb-server -qq && mysql -u root -proot -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;'
+RUN sudo apt-get install mariadb-server -qq && \
+echo "mysql -u root -proot -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;'" | bash
 
 RUN sudo sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf
 RUN sudo service mysql restart
@@ -46,7 +47,7 @@ COPY ./todo-application/todo-server /todo-server
 COPY ./wait-for-it/wait-for-it.sh /todo-server
 EXPOSE 1350
 
-RUN mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS tododb DEFAULT CHARSET utf8mb4; CREATE USER 'todoserver'@'%' IDENTIFIED BY 'todoserverpassword'; GRANT ALL PRIVILEGES ON *.* TO 'todoserver'@'%' IDENTIFIED BY 'todoserverpassword' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+RUN echo "mysql -u root -proot -e 'CREATE DATABASE IF NOT EXISTS tododb DEFAULT CHARSET utf8mb4; CREATE USER 'todoserver'@'%' IDENTIFIED BY 'todoserverpassword'; GRANT ALL PRIVILEGES ON *.* TO 'todoserver'@'%' IDENTIFIED BY 'todoserverpassword' WITH GRANT OPTION; FLUSH PRIVILEGES;'" | bash
 
 ENV DB_HOST 127.0.0.1
 ENV DB_USER todoserver
