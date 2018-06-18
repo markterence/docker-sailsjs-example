@@ -6,29 +6,29 @@ FROM debian:jessie
 RUN apt-get update
 
 RUN apt-get install -y -q --no-install-recommends \
-	make \
-	nginx \
 	wget \
 	curl \
-	sudo \
-	software-properties-common \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& apt-get -y autoclean
+	software-properties-common
 
 ## mariadb
+##  rm -rf /var/lib/apt/lists/* \ apt-get -y autoclean
+COPY ./docker/mini/mysql/create_admin.sh	/usr/local/bin/create_admin.sh
+RUN chmod +x /usr/local/bin/create_admin.sh
+ENV MYSQL_BIND_ADDRESS 0.0.0.0
+ENV MYSQL_PORT 3306
+ENV MYSQL_ADMIN_PASS root
+ENV MYSQL_ADMIN_USER root
+ENV MYSQL_ADMIN_HOST %
+
 RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db && \
 add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://sgp1.mirrors.digitalocean.com/mariadb/repo/10.3/debian jessie main' && \
 apt-get update && \
-export DEBIAN_FRONTEND=noninteractive && \
+DEBIAN_FRONTEND=noninteractive && \
 echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'" >> /tmp/config && \
 echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'" >> /tmp/config && \
-apt-get install mariadb-server -qq && \
-echo "mysqld_safe &" >> /tmp/config && \
-echo "/usr/bin/mysqladmin -u root password 'root'" >> /tmp/config && \
-echo "mysql -u root -proot -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;'" >> /tmp/config && \
-bash /tmp/config && \
-sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf && \
+apt-get install mariadb-server -y && \
 rm -f /tmp/config && \
+bash /usr/local/bin/create_admin.sh && \
 service mysql restart
 
 VOLUME ["/var/lib/mysql", "/etc/mysql"]
