@@ -10,6 +10,7 @@ RUN apt-get install -y -q --no-install-recommends \
 	nginx \
 	wget \
 	curl \
+	sudo \
 	software-properties-common \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& apt-get -y autoclean
