@@ -1,5 +1,5 @@
-FROM node:8.11.3
- 
+FROM node:8.11.3-alpine
+RUN apk add --no-cache git bash
 RUN mkdir -p /todo-server
 
 WORKDIR /todo-server
