@@ -22,10 +22,10 @@ RUN export DEBIAN_FRONTEND=noninteractive
 RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'"]
 RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'"]
 RUN apt-get install mariadb-server -y -q
+RUN ["/bin/bash", "-c", "mysql -u root -proot -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;'"]
 
-RUN mysql -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 RUN sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf
-RUN sudo service mysql restart
+RUN service mysql restart
 
 ## install nodejs
 
