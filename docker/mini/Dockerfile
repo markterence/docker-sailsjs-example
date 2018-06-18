@@ -16,17 +16,18 @@ RUN apt-get install -y -q --no-install-recommends \
 	&& apt-get -y autoclean
 
 ## mariadb
-RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
-RUN add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://sgp1.mirrors.digitalocean.com/mariadb/repo/10.3/debian jessie main'
-RUN apt-get update
-RUN export DEBIAN_FRONTEND=noninteractive
-RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'"]
-RUN ["/bin/bash", "-c", "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'"]
-RUN sudo apt-get install mariadb-server -qq && \
-echo "mysql -u root -proot -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;'" | bash
-
-RUN sudo sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf
-RUN sudo service mysql restart
+RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db && \
+add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://sgp1.mirrors.digitalocean.com/mariadb/repo/10.3/debian jessie main' && \
+apt-get update && \
+export DEBIAN_FRONTEND=noninteractive && \
+echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'" >> /tmp/config && \
+echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'" >> /tmp/config && \
+apt-get install mariadb-server -qq && \
+echo "mysql -u root -proot -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;'" >> /tmp/config && \
+bash /tmp/config && \
+sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf && \
+rm -f /tmp/config && \
+service mysql restart
 
 ## install nodejs
 
@@ -47,7 +48,8 @@ COPY ./todo-application/todo-server /todo-server
 COPY ./wait-for-it/wait-for-it.sh /todo-server
 EXPOSE 1350
 
-RUN echo "mysql -u root -proot -e 'CREATE DATABASE IF NOT EXISTS tododb DEFAULT CHARSET utf8mb4; CREATE USER 'todoserver'@'%' IDENTIFIED BY 'todoserverpassword'; GRANT ALL PRIVILEGES ON *.* TO 'todoserver'@'%' IDENTIFIED BY 'todoserverpassword' WITH GRANT OPTION; FLUSH PRIVILEGES;'" | bash
+RUN echo "mysql -u root -proot -e 'CREATE DATABASE IF NOT EXISTS tododb DEFAULT CHARSET utf8mb4; CREATE USER 'todoserver'@'%' IDENTIFIED BY 'todoserverpassword'; GRANT ALL PRIVILEGES ON *.* TO 'todoserver'@'%' IDENTIFIED BY 'todoserverpassword' WITH GRANT OPTION; FLUSH PRIVILEGES;'" >> /tmp/init_db && \
+bash /tmp/init_db
 
 ENV DB_HOST 127.0.0.1
 ENV DB_USER todoserver
