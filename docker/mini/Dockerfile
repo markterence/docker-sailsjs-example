@@ -1,5 +1,5 @@
  
-FROM node:8.11.3-alpine
+FROM debian:jessie
 
 # install native packages/dependencies/libraries
 
@@ -9,6 +9,7 @@ RUN apt-get install -y -q --no-install-recommends \
 	make \
 	nginx \
 	wget \
+	curl \
 	software-properties-common \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& apt-get -y autoclean
@@ -25,6 +26,14 @@ RUN apt-get install mariadb-server -y -q
 RUN mysql -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 RUN sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf
 RUN sudo service mysql restart
+
+## install nodejs
+
+RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash \
+&& source ~/.profile \
+&& . ~/.nvm/nvm.sh \
+&& nvm install 8.9.1 \
+&& nvm use 8.9.1
 
 ## Sails JS / Node JS code
 RUN mkdir -p /todo-server
