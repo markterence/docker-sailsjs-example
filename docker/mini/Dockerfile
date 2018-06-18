@@ -24,18 +24,16 @@ RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db 
 add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://sgp1.mirrors.digitalocean.com/mariadb/repo/10.3/debian jessie main' && \
 apt-get update && \
 DEBIAN_FRONTEND=noninteractive && \
-echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'" >> /tmp/config && \
-echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'" >> /tmp/config && \
+echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'" | bash && \
+echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'" | bash && \
 apt-get install mariadb-server -y && \
 rm -f /tmp/config && \
-bash /usr/local/bin/create_admin.sh && \
 service mysql restart
 
 VOLUME ["/var/lib/mysql", "/etc/mysql"]
 ## install nodejs
 
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash \
-&& source ~/.profile \
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash \
 && . ~/.nvm/nvm.sh \
 && nvm install 8.9.1 \
 && nvm use 8.9.1
