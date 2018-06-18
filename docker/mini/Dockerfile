@@ -23,12 +23,15 @@ export DEBIAN_FRONTEND=noninteractive && \
 echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password password root'" >> /tmp/config && \
 echo "debconf-set-selections <<< 'mariadb-server-10.3 mysql-server/root_password_again password root'" >> /tmp/config && \
 apt-get install mariadb-server -qq && \
+echo "mysqld_safe &" >> /tmp/config && \
+echo "/usr/bin/mysqladmin -u root password 'root'" >> /tmp/config && \
 echo "mysql -u root -proot -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;'" >> /tmp/config && \
 bash /tmp/config && \
 sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf && \
 rm -f /tmp/config && \
 service mysql restart
 
+VOLUME ["/var/lib/mysql", "/etc/mysql"]
 ## install nodejs
 
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash \
