@@ -16,7 +16,7 @@ ENV PORT 1350
 ENV NODE_ENV alterdb 
 
 VOLUME ["/var/lib/mysql", "/etc/mysql"]
-
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && \
 	apt-get install -y -q --no-install-recommends \
 	wget \
@@ -31,7 +31,6 @@ RUN apt-get update && \
 	apt-get install mariadb-server -y --no-install-recommends && \
 	rm -f /tmp/config && \
 	service mysql restart && \
-	rm /bin/sh && ln -s /bin/bash /bin/sh && \
 	curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash && \
 	source $NVM_DIR/nvm.sh \
 	&& nvm install  8.9.1 \
