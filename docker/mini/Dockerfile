@@ -47,10 +47,10 @@ RUN mkdir -p /todo-server
 WORKDIR /todo-server
 
 COPY ./todo-application/todo-server/package.json /todo-server
-RUN npm install && rm -rf /var/lib/apt/lists/* && apt-get -y autoclean && apt-get remove curl
+RUN npm install && rm -rf /var/lib/apt/lists/* && apt-get -y autoclean && apt-get remove curl -y
 COPY ./todo-application/todo-server /todo-server
 COPY ./wait-for-it/wait-for-it.sh /todo-server
 EXPOSE 1350
 
 #CMD ["./wait-for-it.sh", "127.0.0.1:1350", "--", "npm", "start"]
-CMD mysqld_safe && /bin/bash && ./wait-for-it.sh 127.0.0.1:1350 -- npm start
+CMD mysqld_safe && /bin/bash && ./wait-for-it.sh 127.0.0.1:1350 -- npm start 
