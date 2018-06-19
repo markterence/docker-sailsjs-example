@@ -52,4 +52,4 @@ COPY ./todo-application/todo-server /todo-server
 COPY ./wait-for-it/wait-for-it.sh /todo-server
 EXPOSE 1350
 
-CMD ["./wait-for-it.sh", "db:1350", "--", "npm", "start"]
+CMD ["./wait-for-it.sh", "127.0.0.1:1350", "--", "npm", "start"]
